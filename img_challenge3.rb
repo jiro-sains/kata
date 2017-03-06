@@ -1,13 +1,9 @@
-  #def initialize(data)
-  #  @original_matrix = data
-  #end
-
   def copy_matrix(old_matrix)
     Marshal.load(Marshal.dump(old_matrix))
   end
 
   def output_image(original_matrix)
-    original_matrix.each {|cols| puts cols.join}
+    original_matrix.each{ |cols| puts cols.join }
   end
 
   def set_one(matrix, row, column)
@@ -21,6 +17,17 @@
     blur_bottom_right(matrix, row, column, factor) 
     blur_upper_left(matrix, row, column, factor)
     blur_bottom_left(matrix, row, column, factor) 
+    #blur_upper_left_ref(matrix, row, column, factor)
+  end
+
+  #doesn't work
+  def blur_upper_left_ref(matrix, row, column, factor)
+    counter = 0
+    (row-factor..row).each do |i|
+        (0..counter).each do |counter|
+          (0..counter).each{ |j| set_one(matrix, i, column-j) } 
+        end
+    end
   end
 
   def blur_upper_left(matrix, row, column, factor)
@@ -28,7 +35,7 @@
     (row-factor..row).each do |i|
         for counter in 0..counter do 
           (0..counter).each{ |j| set_one(matrix, i, column-j) } 
-          counter = counter + 1
+          counter += 1
         end
     end
   end
@@ -38,7 +45,7 @@
     (row..row+factor).reverse_each do |i|
         for counter in 0..counter do 
           (0..counter).each{ |j| set_one(matrix, i, column-j) }  
-          counter = counter + 1              
+          counter += 1              
         end
     end
   end
@@ -48,7 +55,7 @@
     (row-factor..row).each do |i|
         for counter in 0..counter do 
           (0..counter).reverse_each{ |j| set_one(matrix, i, column+j) } 
-          counter = counter + 1
+          counter += 1
         end
     end
   end
@@ -57,8 +64,8 @@
     counter = 0
     (row..row+factor).reverse_each do |i|
         for counter in 0..counter do 
-          (0..counter).each { |j| set_one(matrix, i, column+j) }
-          counter = counter + 1              
+          (0..counter).each{ |j| set_one(matrix, i, column+j) }
+          counter += 1              
         end
     end
   end
