@@ -73,7 +73,7 @@
   def parse_image(original_matrix, new_matrix)
     original_matrix.each_with_index do |subarray, row|
       subarray.each_index do |column|
-        blur(new_matrix, row, column, 2) if original_matrix[row][column] == 1
+        blur(new_matrix, row, column, 3) if original_matrix[row][column] == 1
       end
     end
   end

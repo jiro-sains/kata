@@ -17,10 +17,10 @@
   end
 
   def blur(matrix,row, column)
-    set_one(matrix, row -1, column) 
-    set_one(matrix, row, column-1)
-    set_one(matrix, row+1, column)
-    set_one(matrix, row, column+1)
+    set_one(matrix, row - 1, column) 
+    set_one(matrix, row, column - 1)
+    set_one(matrix, row + 1, column)
+    set_one(matrix, row, column + 1)
   end
 
   def parse_image(original_matrix, new_matrix)
