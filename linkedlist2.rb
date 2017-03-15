@@ -7,7 +7,6 @@ class LinkedList
   end
 end
 
-
 class Stack
   attr_accessor :node, :reversed_node
 
@@ -31,6 +30,7 @@ class Stack
       end
     end
 end
+
 
 def print_values(list_node)
   if list_node
