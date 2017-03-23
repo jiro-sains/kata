@@ -1,33 +1,52 @@
 
-class Stack
+class LinkedList
   attr_accessor :value, :next_node
 
-  def initialize(value, next_node=nil)
+  def initialize(value, next_node = nil)
     @value = value
     @next_node = next_node
   end
+end
 
-  def self.push(value)
-    @node = self.new(value, @node)
+class Stack
+  attr_accessor :node
+
+  def initialize
+    @node = nil
   end
 
-  def self.pop
+  def push(value)
+    @node = LinkedList.new(value, @node)
+  end
+
+
+  def pop
     if @node
-      puts @node.value
-      #return @node.value
+      top_node = @node.value
       @node = @node.next_node
+      return top_node
     end
   end
 
 end
 
-def reverse_list(list)
+def reverse_list_old(list)
   if list
     reverse_list(list.next_node)
   else
     return
   end
   print "#{list.value} --> " 
+end
+
+def reverse_list(list_node)
+  reverse = Stack.new
+  while list_node
+    temp_value = list_node.value
+    reverse.push(list_node.value)
+    list_node = list_node.next_node
+  end
+  return reverse
 end
 
 def print_values(list_node)
@@ -40,29 +59,25 @@ def print_values(list_node)
   end
 end
 
+stack = Stack.new
+stack.push(1)
+stack.push(2)
+stack.push(3)
 
-stack = Stack.push(37)
-print_values(stack)
+
+print_values(stack.node)
+
+reversed_stack = reverse_list(stack.node)
 puts "------"
-stack = Stack.push(99)
-print_values(stack)
-puts "------"
-stack = Stack.push(12)
-print_values(stack)
-puts "------"
-stack = Stack.push(13)
-print_values(stack)
-stack = Stack.pop
-puts "------"
-print_values(stack)
-stack = Stack.pop
-puts "------"
-print_values(stack)
-stack = Stack.pop
-puts "------"
-print_values(stack)
-stack = Stack.pop
-puts "------"
-print_values(stack)
+print_values(reversed_stack.node)
+
+#binding.pry
+#print_values(reversed_stack.node)
+#stack.pop
+#print_values(stack.node)
+#stack.pop
+
 #reverse_list(stack)
+#binding.pry
+
 
