@@ -10,12 +10,14 @@ class Tree
 
 end
 
-def deep_search_left(number, tree)
+def deep_search_left(number, tree, counter)
+	counter = counter + 1
+	#binding.pry
 	while tree
 		return tree if tree.payload == number
 		return nil if tree.children == [] 
 		tree = tree.children[0] 
-		deep_search(number, tree)
+		deep_search_left(number, tree, counter)
 	end
 end
 
@@ -68,6 +70,6 @@ trunk   = Tree.new(2, [seventh_node, shallow_fifth_node])
 #binding.pry
 #puts deep_fifth_node.inspect
 #puts trunk.children
-alfa = deep_search(6,trunk, 0)
+alfa = deep_search_left(6,trunk, 0)
 puts alfa.inspect
 #puts alfa.payload
