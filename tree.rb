@@ -58,10 +58,6 @@ shallow_fifth_node = Tree.new(5, [ninth_node])
 trunk   = Tree.new(2, [seventh_node, shallow_fifth_node])
 
 
-
-#binding.pry
-#puts deep_fifth_node.inspect
-#puts trunk.children
 alfa = deep_search(5,trunk)
 puts alfa.inspect
 beta = breadth_search(5,trunk)
