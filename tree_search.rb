@@ -1,4 +1,4 @@
-require 'pry'
+#require 'pry'
 
 class BinaryTree
   attr_accessor :payload, :left, :right
@@ -8,51 +8,118 @@ class BinaryTree
     @left = left
     @right = right
   end
+end
 
+def print_tree(tree)
+	#ordered_array = []
+	answer = 0
+	while tree
+		puts "I am here"
+		puts tree.inspect
+		#return tree if tree.payload == number
+		if tree.left == nil && tree.right == nil
+			puts "time to go back #{tree.payload}"
+			#return
+			#puts tree.payload
+			return tree.payload 
+		end
+		leaf_left = tree.left
+		puts "left #{leaf_left}"
+		leaf_right = tree.right
+		puts "right #{leaf_right}"
+		while tree.left && answer == 0
+			puts "i am in the while"
+			leaf_left = tree.left
+			#answer = print_tree(leaf_left)
+			answer = print_tree(leaf_left)
+		end
+		if answer == 0
+			return print_tree(leaf_right)
+		else
+			return answer
+		end
+	end
+end
+
+def traverse_tree(tree)
+	a = nil
+	#puts tree.payload
+	while tree 
+		if tree.left == nil and tree.right == nil
+			a = tree.payload
+			puts "this is where I am returning"
+			return a
+		end
+		left_branch = tree.left
+		right_branch = tree.right
+		while tree.left != nil
+			#puts "I am in the second while"
+			left_branch = tree.left
+			return traverse_tree(left_branch)
+		end
+		puts "tree after while #{tree.payload}"
+	end
+end
+
+def crazy(parent_tree, child_tree)
+end
+
+def go_left(tree)
+	#puts "going in tree is #{tree.inspect}"
+	if tree.left == nil
+		puts "payload #{tree.payload}"
+		up_tree = tree
+		tree = nil
+		return tree 
+	end	
+	while tree.left
+		tree = tree.left
+		go_left(tree)
+		#puts tree.payload
+	end
+	#puts tree.payload
+	#return tree.payload 
+end
+
+def scratch(tree)
+	puts tree.left.payload
+	puts tree.payload
+	puts tree.right.payload
 end
 
 def build_tree(input_array)
 	tree = BinaryTree.new(nil,nil,nil)
-	current_item = tree
+	current_item = nil
 	input_array.each_with_index do |item, index|
+		new_item = BinaryTree.new(item, nil, nil)
 		if index == 0
-			tree = BinaryTree.new(input_array[0], nil, nil)
-			current_item = tree
+			tree = new_item
+			current_item = new_item
 		else
-			#puts "index is #{index}"
-			#puts "item is #{item}"
-			#puts current_item.inspect
-			if item > current_item.payload
-				puts "going right"
-				new_item = BinaryTree.new(item, nil, nil)
-				if tree.right 
-					current_item = tree.right
-					current_item.right = item
+			if item > current_item.payload	
+				if current_item.right == nil
+					current_item.right = new_item
 				else
-					tree.right = new_item
+					current_item = current_item.right
+					current_item.right = new_item
 				end
 			else
-				puts "going left"
-				tree.left = item
+				if current_item.left == nil
+					current_item.left = new_item
+				else
+					current_item = current_item.left
+					current_item.left = new_item
+				end
 			end
 		end
 	end
 	tree
 end
-#seven = BinaryTree.new(7, nil, nil)
-#five  = BinaryTree.new(5, nil, nil)
-#four  = BinaryTree.new(4, nil, nil)
-#six   = BinaryTree.new(6, nil, seven)
-#three = BinaryTree.new(3, nil, six)
-#two   = BinaryTree.new(2, four, five)
-#trunk = BinaryTree.new(1, two, three)
 
-#puts trunk.payload
-#puts trunk.left.payload
-#puts trunk.right.payload
 
-input_array = [1,2,3]
+input_array = [3,1,4]
 arbol = build_tree(input_array)
 puts arbol.inspect
-puts arbol.right.inspect
+puts arbol.left.inspect
+scratch(arbol)
 
