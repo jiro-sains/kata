@@ -82,9 +82,15 @@ def go_left(tree)
 end
 
 def scratch(tree)
-	puts tree.left.payload
-	puts tree.payload
-	puts tree.right.payload
+	ordered_array = []
+	while tree != nil
+		puts "tree #{tree.inspect}"
+		ordered_array << tree.left.payload if tree.left != nil
+		tree = tree.left
+	end
+	#ordered_array << tree.payload
+	#ordered_array << tree.right.payload
+	ordered_array
 end
 
 def build_tree(input_array)
@@ -117,9 +123,13 @@ def build_tree(input_array)
 end
 
 
-input_array = [3,1,4]
+input_array = [7,4,9,1]
 arbol = build_tree(input_array)
 puts arbol.inspect
-puts arbol.left.inspect
-scratch(arbol)
+puts arbol.left.left.payload
+puts arbol.left.payload
+puts arbol.payload
+puts arbol.right.payload
 
+arbol_ordenado = scratch(arbol)
+puts arbol_ordenado.inspect
