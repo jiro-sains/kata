@@ -10,7 +10,56 @@ class Tree
 
 end
 
-def breadth_search(number, tree)
+class MyQueue
+  def initialize
+    @queue = []
+  end
+
+  def enqueue(item)
+    @queue.push(item)
+  end
+
+  def dequeue
+    @queue.shift
+  end
+end
+
+# 2 - 5 - 9 - 4
+#  \
+#    7 - 6 - 11
+#         \
+#          5 
+#
+# 2
+# c: 5, 7 q: 5, 7, 
+#  c: 6
+#   c: 11, 5
+
+# 2, 7, 5, 6, 9, 5, 11, 4
+def breadth_search(number,tree)
+	queue = MyQueue.new
+	return tree if tree.payload == number
+
+	tree.children.each do |leaf|
+		return leaf if leaf.payload == number
+		queue.enqueue(leaf)
+	end
+	while a = queue.dequeue
+		a.children.each do |leaf|
+			return leaf if leaf.payload == number
+			queue.enqueue(leaf)
+		end
+	end
+end
+
+
+
+  # check the root
+  # check the children of the root
+  # check the children of 7 and the children of 5
+
+
+def breadth_search_binary(number, tree)
 	while tree
 		return tree if tree.payload == number
 		return nil if tree.children == [] 
@@ -41,6 +90,13 @@ def deep_search(number, tree)
 	end
 end
 
+### by Piotr
+def depth_search(number, tree)
+	return tree if tree.payload == number
+	left = depth_search(number, tree.children[0]) if tree.children[0]
+	right = depth_search(number, tree.children[1]) if tree.children[1]
+	left || right
+end
 
 # The "Leafs" of a tree, elements that have no children
 deep_fifth_node = Tree.new(5, [])
@@ -58,7 +114,7 @@ shallow_fifth_node = Tree.new(5, [ninth_node])
 trunk   = Tree.new(2, [seventh_node, shallow_fifth_node])
 
 
-alfa = deep_search(5,trunk)
+alfa = depth_search(5,trunk)
 puts alfa.inspect
-beta = breadth_search(5,trunk)
-puts beta.inspect
+#beta = breadth_search(5,trunk)
+#puts beta.inspect
