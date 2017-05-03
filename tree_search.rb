@@ -10,35 +10,18 @@ class BinaryTree
   end
 end
 
-def print_tree(tree)
-	#ordered_array = []
-	answer = 0
-	while tree
-		puts "I am here"
-		puts tree.inspect
-		#return tree if tree.payload == number
-		if tree.left == nil && tree.right == nil
-			puts "time to go back #{tree.payload}"
-			#return
-			#puts tree.payload
-			return tree.payload 
-		end
-		leaf_left = tree.left
-		puts "left #{leaf_left}"
-		leaf_right = tree.right
-		puts "right #{leaf_right}"
-		while tree.left && answer == 0
-			puts "i am in the while"
-			leaf_left = tree.left
-			#answer = print_tree(leaf_left)
-			answer = print_tree(leaf_left)
-		end
-		if answer == 0
-			return print_tree(leaf_right)
-		else
-			return answer
-		end
-	end
+class MyQueue
+  def initialize
+    @queue = []
+  end
+
+  def enqueue(item)
+    @queue.push(item)
+  end
+
+  def dequeue
+    @queue.shift
+  end
 end
 
 def traverse_tree(tree)
@@ -81,16 +64,25 @@ def go_left(tree)
 	#return tree.payload 
 end
 
+def depth_search(tree)
+	return if tree.children == []
+	left = depth_search(number, tree.children[0]) if tree.children[0]
+	right = depth_search(number, tree.children[1]) if tree.children[1]
+	left || right
+end
+
 def scratch(tree)
-	ordered_array = []
-	while tree != nil
-		puts "tree #{tree.inspect}"
-		ordered_array << tree.left.payload if tree.left != nil
-		tree = tree.left
+	queue = MyQueue.new
+	while tree
+
+		while tree.left
+			tree = tree.left
+		end
+		queue.enqueue(tree)
+		while tree.right
+		end
 	end
-	#ordered_array << tree.payload
-	#ordered_array << tree.right.payload
-	ordered_array
+	queue
 end
 
 def build_tree(input_array)

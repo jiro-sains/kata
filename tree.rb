@@ -1,5 +1,3 @@
-require 'pry'
-
 class Tree
   attr_accessor :payload, :children
 
@@ -24,40 +22,19 @@ class MyQueue
   end
 end
 
-# 2 - 5 - 9 - 4
-#  \
-#    7 - 6 - 11
-#         \
-#          5 
-#
-# 2
-# c: 5, 7 q: 5, 7, 
-#  c: 6
-#   c: 11, 5
-
-# 2, 7, 5, 6, 9, 5, 11, 4
+##new since last mentoring seccion
 def breadth_search(number,tree)
 	queue = MyQueue.new
-	return tree if tree.payload == number
-
-	tree.children.each do |leaf|
-		return leaf if leaf.payload == number
-		queue.enqueue(leaf)
-	end
-	while a = queue.dequeue
-		a.children.each do |leaf|
+	queue.enqueue(tree)
+	while tree && tree.payload != number
+		tree.children.each do |leaf|
 			return leaf if leaf.payload == number
 			queue.enqueue(leaf)
 		end
+		tree = queue.dequeue
 	end
+	tree
 end
-
-
-
-  # check the root
-  # check the children of the root
-  # check the children of 7 and the children of 5
-
 
 def breadth_search_binary(number, tree)
 	while tree
@@ -114,7 +91,7 @@ shallow_fifth_node = Tree.new(5, [ninth_node])
 trunk   = Tree.new(2, [seventh_node, shallow_fifth_node])
 
 
-alfa = depth_search(5,trunk)
-puts alfa.inspect
-#beta = breadth_search(5,trunk)
-#puts beta.inspect
+#alfa = depth_search(5,trunk)
+#puts alfa.inspect
+beta = breadth_search(5,trunk)
+puts beta.inspect
