@@ -1,4 +1,4 @@
-#require 'pry'
+require 'pry'
 
 class BinaryTree
   attr_accessor :payload, :left, :right
@@ -20,7 +20,7 @@ class MyQueue
   end
 
   def dequeue
-    @queue.shift
+    @queue.pop
   end
 end
 
@@ -44,45 +44,42 @@ def traverse_tree(tree)
 	end
 end
 
-def crazy(parent_tree, child_tree)
-end
-
-def go_left(tree)
-	#puts "going in tree is #{tree.inspect}"
-	if tree.left == nil
-		puts "payload #{tree.payload}"
-		up_tree = tree
-		tree = nil
-		return tree 
-	end	
-	while tree.left
-		tree = tree.left
-		go_left(tree)
-		#puts tree.payload
-	end
-	#puts tree.payload
-	#return tree.payload 
-end
 
 def depth_search(tree)
-	return if tree.children == []
-	left = depth_search(number, tree.children[0]) if tree.children[0]
-	right = depth_search(number, tree.children[1]) if tree.children[1]
+	return tree if tree.left == nil and tree.right == nil
+	left = depth_search(tree.left) if tree.left
+	right = depth_search(tree.right) if tree.right
+	tree.left = nil if left
+	tree.right = nil if right
 	left || right
 end
 
+
 def scratch(tree)
 	queue = MyQueue.new
+	results = []
 	while tree
-
+		if results != []
+			results << tree.payload
+			tree = queue.dequeue
+		end
 		while tree.left
+			queue.enqueue(tree)
 			tree = tree.left
+		end		
+		results << tree.payload
+		tree = queue.dequeue
+		if tree.right
+			results << tree.payload
+			results << tree.right.payload
+			tree = queue.dequeue
+		else
+			results << tree.payload
+			tree = queue.dequeue
 		end
-		queue.enqueue(tree)
-		while tree.right
-		end
+		binding.pry
 	end
-	queue
+	results
 end
 
 def build_tree(input_array)
@@ -118,10 +115,14 @@ end
 input_array = [7,4,9,1]
 arbol = build_tree(input_array)
 puts arbol.inspect
-puts arbol.left.left.payload
-puts arbol.left.payload
-puts arbol.payload
-puts arbol.right.payload
+#puts arbol.left.left.payload
+#puts arbol.left.payload
+#puts arbol.payload
+#puts arbol.right.payload
+
 
 arbol_ordenado = scratch(arbol)
+#arbol_ordenado = depth_search(arbol)
 puts arbol_ordenado.inspect
+arbol_ordenado2 = depth_search(arbol)
+puts arbol_ordenado2.inspect
