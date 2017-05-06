@@ -45,41 +45,14 @@ def traverse_tree(tree)
 end
 
 
-def depth_search(tree)
-	return tree if tree.left == nil and tree.right == nil
-	left = depth_search(tree.left) if tree.left
-	right = depth_search(tree.right) if tree.right
-	tree.left = nil if left
-	tree.right = nil if right
-	left || right
-end
-
-
-def scratch(tree)
-	queue = MyQueue.new
-	results = []
-	while tree
-		if results != []
-			results << tree.payload
-			tree = queue.dequeue
-		end
-		while tree.left
-			queue.enqueue(tree)
-			tree = tree.left
-		end		
-		results << tree.payload
-		tree = queue.dequeue
-		if tree.right
-			results << tree.payload
-			results << tree.right.payload
-			tree = queue.dequeue
-		else
-			results << tree.payload
-			tree = queue.dequeue
-		end
-		binding.pry
-	end
-	results
+def depth_search(tree, results)
+	return if tree == nil
+	depth_search(tree.left, results)
+	depth_search(tree.right, results)
+	#tree.left = nil if left
+	#tree.right = nil if right
+	#puts tree.payload
+	results << tree.payload
 end
 
 def build_tree(input_array)
@@ -112,17 +85,16 @@ def build_tree(input_array)
 end
 
 
-input_array = [7,4,9,1]
+input_array = [7, 4, 9, 1, 6]
+output_array = []
 arbol = build_tree(input_array)
 puts arbol.inspect
-#puts arbol.left.left.payload
-#puts arbol.left.payload
-#puts arbol.payload
-#puts arbol.right.payload
+puts arbol.left.left.payload
+puts arbol.left.payload
+puts arbol.payload
+puts arbol.right.payload
 
 
-arbol_ordenado = scratch(arbol)
-#arbol_ordenado = depth_search(arbol)
-puts arbol_ordenado.inspect
-arbol_ordenado2 = depth_search(arbol)
-puts arbol_ordenado2.inspect
+#depth_search(arbol, output_array)
+#puts output_array
+#puts arbol_ordenado2.inspect
