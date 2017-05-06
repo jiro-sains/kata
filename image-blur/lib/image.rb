@@ -34,7 +34,7 @@ module Image
   end
 
   def self.blur_data
-    new_matrix = image.copy_matrix
+    new_matrix = copy_matrix
     image.parse_image(new_matrix)
     #return new_matrix
   end

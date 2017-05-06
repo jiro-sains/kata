@@ -19,7 +19,8 @@ RSpec.describe Image, type: :model do
         [0, 0, 0, 0]
       ]
      image = Image.new(input)
-     expect(image.blur_data).to eq expected
+     result = image.blur_data
+     expect(result).to eq expected
     end
   end
 end

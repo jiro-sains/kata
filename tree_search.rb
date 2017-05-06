@@ -10,91 +10,62 @@ class BinaryTree
   end
 end
 
-class MyQueue
-  def initialize
-    @queue = []
-  end
-
-  def enqueue(item)
-    @queue.push(item)
-  end
-
-  def dequeue
-    @queue.pop
-  end
-end
-
-def traverse_tree(tree)
-	a = nil
-	#puts tree.payload
-	while tree 
-		if tree.left == nil and tree.right == nil
-			a = tree.payload
-			puts "this is where I am returning"
-			return a
-		end
-		left_branch = tree.left
-		right_branch = tree.right
-		while tree.left != nil
-			#puts "I am in the second while"
-			left_branch = tree.left
-			return traverse_tree(left_branch)
-		end
-		puts "tree after while #{tree.payload}"
-	end
-end
-
-
 def depth_search(tree, results)
 	return if tree == nil
 	depth_search(tree.left, results)
+  results << tree
 	depth_search(tree.right, results)
-	#tree.left = nil if left
-	#tree.right = nil if right
-	#puts tree.payload
-	results << tree.payload
+	results << tree if !results.include?(tree)
+end
+
+def return_array(results)
+  final_results = []
+  results.each { |item| final_results << item.payload }
+  final_results
+end
+
+def right_leaf(tree, item)
+  while tree.right && (item > tree.payload)
+    tree = tree.right
+  end
+  tree
+end
+
+def left_leaf(tree, item)
+  while tree.left && (item < tree.payload)
+    tree = tree.left
+  end
+  tree
 end
 
 def build_tree(input_array)
 	tree = BinaryTree.new(nil,nil,nil)
-	current_item = nil
 	input_array.each_with_index do |item, index|
-		new_item = BinaryTree.new(item, nil, nil)
+    new_item = BinaryTree.new(item,nil,nil)
 		if index == 0
 			tree = new_item
-			current_item = new_item
 		else
-			if item > current_item.payload	
-				if current_item.right == nil
-					current_item.right = new_item
-				else
-					current_item = current_item.right
-					current_item.right = new_item
-				end
-			else
-				if current_item.left == nil
-					current_item.left = new_item
-				else
-					current_item = current_item.left
-					current_item.left = new_item
-				end
-			end
-		end
-	end
+			if item > tree.payload	
+        node_to_be_added_to = right_leaf(tree,item)
+      else
+        node_to_be_added_to = left_leaf(tree,item)
+      end
+      if item > node_to_be_added_to.payload
+        node_to_be_added_to.right = new_item
+      else
+        node_to_be_added_to.left = new_item
+      end
+    end
+  end
 	tree
 end
 
-
-input_array = [7, 4, 9, 1, 6]
+input_array = [7, 4, 1, 9, 6, 14, 10, 2]
 output_array = []
 arbol = build_tree(input_array)
-puts arbol.inspect
-puts arbol.left.left.payload
-puts arbol.left.payload
-puts arbol.payload
-puts arbol.right.payload
 
 
-#depth_search(arbol, output_array)
-#puts output_array
-#puts arbol_ordenado2.inspect
+#binding.pry
+depth_search(arbol, output_array)
+results = return_array(output_array)
+puts results
