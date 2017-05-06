@@ -1,12 +1,15 @@
-  #def initialize(data)
-  #  @original_matrix = data
-  #end
+class Image
+  attr_accessor :original_matrix
+
+  def initialize(data)
+    @original_matrix = data
+  end
 
   def copy_matrix(old_matrix)
     Marshal.load(Marshal.dump(old_matrix))
   end
 
-  def output_image(original_matrix)
+  def output_image
     original_matrix.each {|cols| puts cols.join}
   end
 
@@ -33,7 +36,7 @@
       end
     end
   end
-
+end
 
 original_matrix =  [
         [0, 0, 0, 0],
@@ -43,13 +46,10 @@ original_matrix =  [
         [0, 0, 0, 0],
         [0, 0, 0, 0]
       ]
-output_image(original_matrix)
-new_matrix = copy_matrix(original_matrix)
-parse_image(original_matrix, new_matrix)
-puts "------"
-output_image(new_matrix)
+image = Image.new(original_matrix)
+image.output_image
+#new_matrix = copy_matrix(original_matrix)
+#parse_image(original_matrix, new_matrix)
+#puts "------"
+#output_image(new_matrix)
 
-
-
-#image.parse_image
-#image.output_image2
