@@ -18,6 +18,14 @@ def depth_search(tree, results)
 	results << tree if !results.include?(tree)
 end
 
+def depth_search_old(tree, results)
+  return if tree == nil
+  depth_search_old(tree.left, results)
+  #puts tree.payload
+  results << tree.payload
+  depth_search_old(tree.right, results)
+end
+
 def return_array(results)
   final_results = []
   results.each { |item| final_results << item.payload }
@@ -60,8 +68,10 @@ def build_tree(input_array)
 	tree
 end
 
-input_array = [7, 4, 1, 9, 6, 14, 10, 2]
+input_array = [7, 4, 1, 9, 6, 14, 10, 2, 1]
 output_array = []
+output_array_old = []
+
 arbol = build_tree(input_array)
 
 
@@ -69,3 +79,7 @@ arbol = build_tree(input_array)
 depth_search(arbol, output_array)
 results = return_array(output_array)
 puts results
+puts '---'
+depth_search_old(arbol, output_array_old)
+puts output_array_old
+
